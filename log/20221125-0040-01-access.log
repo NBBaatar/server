@@ -1,0 +1,5 @@
+::1 - - [24/Nov/2022:01:30:01 +0000] "GET /api/v1/users HTTP/1.1" 500 120 "-" "PostmanRuntime/7.29.2"
+::1 - - [24/Nov/2022:01:30:13 +0000] "POST /api/v1/users/login HTTP/1.1" 200 496 "-" "PostmanRuntime/7.29.2"
+::1 - - [24/Nov/2022:01:30:23 +0000] "GET /api/v1/users HTTP/1.1" 200 296 "-" "PostmanRuntime/7.29.2"
+::1 - - [24/Nov/2022:01:30:57 +0000] "POST /api/v1/users/login HTTP/1.1" 200 496 "-" "PostmanRuntime/7.29.2"
+::1 - - [24/Nov/2022:01:31:34 +0000] "POST /api/v1/users HTTP/1.1" 200 327 "-" "PostmanRuntime/7.29.2"
