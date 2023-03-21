@@ -24,7 +24,7 @@ router.route("/send").post(sendGmail);
 router
   .route("/")
   .get(protection, authorize("admin", "operator", "builder"), getUsers)
-  .post(protection, authorize("admin", "operator", "builder"), createUser);
+  .post(createUser);
 router
   .route("/register")
   .post(protection, authorize("admin", "operator", "builder"), registerUser);
