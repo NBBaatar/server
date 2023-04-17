@@ -10,7 +10,7 @@ exports.getProjectBuildings = asyncHandler(async (req, res, next) => {
   if (req.params.projectId) {
     query = Building.find({ project: req.params.projectId });
   } else {
-    query = Building.find();
+    query = Building.find().populate("project");
   }
   const building = await query;
   res.status(200).json({
