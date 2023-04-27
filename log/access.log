@@ -60,3 +60,5 @@
 ::1 - - [27/Apr/2023:02:56:54 +0000] "GET /api/v1/buildings/643c9241bb789700322c57b7/unit HTTP/1.1" 200 102 "-" "PostmanRuntime/7.32.2"
 ::1 - - [27/Apr/2023:02:57:29 +0000] "GET /api/v1/buildings/643c9241bb789700322c57b7/unit HTTP/1.1" 200 300 "-" "PostmanRuntime/7.32.2"
 ::1 - - [27/Apr/2023:02:58:09 +0000] "GET /api/v1/units/643de789cfefac0032c131cd HTTP/1.1" 200 219 "-" "PostmanRuntime/7.32.2"
+::1 - - [27/Apr/2023:03:03:42 +0000] "GET /api/v1/buildings/643c9241bb789700322c57b7/unit HTTP/1.1" 200 452 "-" "PostmanRuntime/7.32.2"
+::1 - - [27/Apr/2023:03:04:36 +0000] "GET /api/v1/buildings/643c9241bb789700322c57b7/unit HTTP/1.1" 200 91 "-" "PostmanRuntime/7.32.2"

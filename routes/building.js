@@ -8,8 +8,12 @@ const {
   updateBuilding,
   deleteBuilding,
 } = require("../controllers/building");
-const { getBuildingUnit } = require("../controllers/unit");
+const {
+  getBuildingUnit,
+  getBuildingGroupUnit,
+} = require("../controllers/unit");
 router.route("/:buildingId/unit").get(getBuildingUnit);
+router.route("/:buildingId/unit/group").get(getBuildingGroupUnit);
 router.route("/").get(getProjectBuildings).post(createBuildings);
 router
   .route("/:id")

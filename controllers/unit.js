@@ -9,24 +9,9 @@ const mongoose = require("mongoose");
 exports.getBuildingUnit = asyncHandler(async (req, res, next) => {
   let query;
   if (req.params.buildingId) {
-    // query = Unit.find({
-    //   building: req.params.buildingId,
-    // });
-    query = Unit.aggregate([
-      {
-        $match: {
-          building: new mongoose.Types.ObjectId(req.params.buildingId),
-        },
-      },
-      {
-        $group: {
-          _id: {
-            unitFloor: "$unitFloor",
-            id: "$_id",
-          },
-        },
-      },
-    ]);
+    query = Unit.find({
+      building: req.params.buildingId,
+    });
   } else {
     query = Unit.find();
   }
@@ -38,6 +23,35 @@ exports.getBuildingUnit = asyncHandler(async (req, res, next) => {
     data: unit,
   });
 });
+exports.getBuildingGroupUnit = asyncHandler(async (req, res, next) => {
+  let query;
+  if (req.params.buildingId) {
+    query = Unit.aggregate([
+      {
+        $match: {
+          building: new mongoose.Types.ObjectId(req.params.buildingId),
+        },
+      },
+      {
+        $group: {
+          _id: {
+            unitFloor: "$unitFloor",
+            // id: "$_id",
+            // building: req.params.buildingId,
+          },
+        },
+      },
+    ]);
+  }
+  const unit = await query;
+  res.status(200).json({
+    success: true,
+    message: "Request success.",
+    count: unit.length,
+    data: unit,
+  });
+});
+
 exports.getUnit = asyncHandler(async (req, res, next) => {
   const unit = await Unit.findById(req.params.id);
   if (!unit) {
