@@ -64,7 +64,7 @@ exports.getBuildingGroupUnitLevel = asyncHandler(async (req, res, next) => {
       {
         // олдсон үр дүнг _id гэсэн утгаар Group хийгээд doc: $$ROOT гэснээр утгаа хүлээн авч replaceRoot ээр буцаан өгөдлөө өгч байгаа.
         $group: {
-          _id: "$_id",
+          _id: "$unitNumber",
           doc: { $first: "$$ROOT" },
         },
       },
