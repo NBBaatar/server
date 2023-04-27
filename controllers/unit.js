@@ -5,21 +5,23 @@ const LocalError = require("../utils/locaError");
 const asyncHandler = require("../middleware/asyncHandler");
 const user = require("../models/user");
 const fs = require("fs");
+const mongoose = require("mongoose");
 exports.getBuildingUnit = asyncHandler(async (req, res, next) => {
   let query;
   if (req.params.buildingId) {
-    //        query = Unit.find({building: req.params.buildingId});
+    // query = Unit.find({
+    //   building: req.params.buildingId,
+    // });
     query = Unit.aggregate([
       {
-        // $group: {
-        //   _id: "$unitFloor",
-        //   unitNumber: { $first: "$unitNumber" },
-        //   building: { $first: req.params.buildingId },
-        // },
+        $match: {
+          building: new mongoose.Types.ObjectId(req.params.buildingId),
+        },
+      },
+      {
         $group: {
           _id: {
             unitFloor: "$unitFloor",
-            building: req.params.buildingId,
           },
         },
       },
