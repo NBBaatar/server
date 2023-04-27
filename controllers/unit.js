@@ -28,19 +28,19 @@ exports.getBuildingGroupUnit = asyncHandler(async (req, res, next) => {
   if (req.params.buildingId) {
     query = Unit.aggregate([
       {
+        // Эхлээд ObjectId гаар хайлт хийж байгаа хэсэг
         $match: {
           building: new mongoose.Types.ObjectId(req.params.buildingId),
         },
       },
       {
+        // олдсон үр дүнг _id гэсэн утгаар Group хийгээд doc: $$ROOT гэснээр утгаа хүлээн авч replaceRoot ээр буцаан өгөдлөө өгч байгаа.
         $group: {
-          _id: {
-            unitFloor: "$unitFloor",
-            id: "$_id",
-            // building: req.params.buildingId,
-          },
+          _id: "$unitFloor",
+          doc: { $first: "$$ROOT" },
         },
       },
+      { $replaceRoot: { newRoot: "$doc" } },
     ]);
   }
   const unit = await query;
