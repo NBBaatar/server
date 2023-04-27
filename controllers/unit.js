@@ -51,7 +51,34 @@ exports.getBuildingGroupUnit = asyncHandler(async (req, res, next) => {
     data: unit,
   });
 });
-
+exports.getBuildingGroupUnitLevel = asyncHandler(async (req, res, next) => {
+  let query;
+  if (req.params.buildingId) {
+    query = Unit.aggregate([
+      {
+        // Эхлээд ObjectId гаар хайлт хийж байгаа хэсэг
+        $match: {
+          building: new mongoose.Types.ObjectId(req.params.buildingId),
+        },
+      },
+      {
+        // олдсон үр дүнг _id гэсэн утгаар Group хийгээд doc: $$ROOT гэснээр утгаа хүлээн авч replaceRoot ээр буцаан өгөдлөө өгч байгаа.
+        $group: {
+          _id: "$_id",
+          doc: { $first: "$$ROOT" },
+        },
+      },
+      { $replaceRoot: { newRoot: "$doc" } },
+    ]);
+  }
+  const unit = await query;
+  res.status(200).json({
+    success: true,
+    message: "Request success.",
+    count: unit.length,
+    data: unit,
+  });
+});
 exports.getUnit = asyncHandler(async (req, res, next) => {
   const unit = await Unit.findById(req.params.id);
   if (!unit) {

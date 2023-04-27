@@ -11,9 +11,11 @@ const {
 const {
   getBuildingUnit,
   getBuildingGroupUnit,
+  getBuildingGroupUnitLevel,
 } = require("../controllers/unit");
 router.route("/:buildingId/unit").get(getBuildingUnit);
 router.route("/:buildingId/unit/group").get(getBuildingGroupUnit);
+router.route("/:buildingId/unit/level").get(getBuildingGroupUnitLevel);
 router.route("/").get(getProjectBuildings).post(createBuildings);
 router
   .route("/:id")
