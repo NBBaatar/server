@@ -19,7 +19,7 @@ exports.getBuildingUnit = asyncHandler(async (req, res, next) => {
         $group: {
           _id: {
             unitFloor: "$unitFloor",
-            building: "$building",
+            building: req.params.buildingId,
           },
         },
       },
