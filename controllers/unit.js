@@ -1,11 +1,11 @@
 const Unit = require("../models/unit");
-const Building = require("../models/building");
-const path = require("path");
+const Level = require("../models/level");
 const LocalError = require("../utils/locaError");
 const asyncHandler = require("../middleware/asyncHandler");
 const user = require("../models/user");
-const fs = require("fs");
+
 const mongoose = require("mongoose");
+const { request } = require("express");
 exports.getBuildingUnit = asyncHandler(async (req, res, next) => {
   let query;
   if (req.params.buildingId) {
@@ -36,7 +36,7 @@ exports.getBuildingGroupUnit = asyncHandler(async (req, res, next) => {
       {
         // олдсон үр дүнг _id гэсэн утгаар Group хийгээд doc: $$ROOT гэснээр утгаа хүлээн авч replaceRoot ээр буцаан өгөдлөө өгч байгаа.
         $group: {
-          _id: "$unitFloor",
+          _id: "$unitNumber",
           doc: { $first: "$$ROOT" },
         },
       },
@@ -53,24 +53,12 @@ exports.getBuildingGroupUnit = asyncHandler(async (req, res, next) => {
 });
 exports.getBuildingGroupUnitLevel = asyncHandler(async (req, res, next) => {
   let query;
-  if (req.params.buildingId) {
-    query = Unit.aggregate([
-      {
-        // Эхлээд ObjectId гаар хайлт хийж байгаа хэсэг
-        $match: {
-          building: new mongoose.Types.ObjectId(req.params.buildingId),
-        },
-      },
-      {
-        // олдсон үр дүнг _id гэсэн утгаар Group хийгээд doc: $$ROOT гэснээр утгаа хүлээн авч replaceRoot ээр буцаан өгөдлөө өгч байгаа.
-        $group: {
-          _id: "$unitNumber",
-          doc: { $first: "$$ROOT" },
-        },
-      },
-      { $replaceRoot: { newRoot: "$doc" } },
-    ]);
+  if (req.params.levelId) {
+    query = Unit.find({ level: req.params.levelId }).populate("level");
+  } else {
+    query = Unit.find().populate("level");
   }
+
   const unit = await query;
   res.status(200).json({
     success: true,
@@ -92,12 +80,9 @@ exports.getUnit = asyncHandler(async (req, res, next) => {
 });
 //Эхлээд холбогдож байгаа collection оо find хийгээд дараа нь insert хийнэ.
 exports.createUnit = asyncHandler(async (req, res, next) => {
-  const building = await Building.findById(req.body.building);
-  if (!building) {
-    throw new LocalError(
-      req.body.building + " ID is not include any Datа.",
-      404
-    );
+  const level = await Level.findById(req.body.level);
+  if (!level) {
+    throw new LocalError(req.body.level + " ID is not include any Datа.", 404);
   }
   const unit = await Unit.create(req.body);
   res.status(200).json({

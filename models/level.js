@@ -1,13 +1,9 @@
 const mongoose = require("mongoose");
 const { slugify } = require("transliteration");
-const UnitSchema = new mongoose.Schema({
-  unitNumber: {
-    type: String,
-    required: true,
-  },
+const LevelSchema = new mongoose.Schema({
   unitFloor: {
     type: String,
-    required: false,
+    required: true,
   },
   createdAt: {
     type: Date,
@@ -22,17 +18,12 @@ const UnitSchema = new mongoose.Schema({
     ref: "Building",
     required: true,
   },
-  level: {
-    type: mongoose.Schema.ObjectId,
-    ref: "Level",
-    required: true,
-  },
   slug: String,
   count: Number,
 });
-UnitSchema.pre("save", function (next) {
+LevelSchema.pre("save", function (next) {
   //add Slug
-  this.slug = slugify(this.unitNumber);
+  this.slug = slugify(this.unitFloor);
   next();
 });
-module.exports = mongoose.model("Unit", UnitSchema);
+module.exports = mongoose.model("Level", LevelSchema);

@@ -13,7 +13,9 @@ const {
   getBuildingGroupUnit,
   getBuildingGroupUnitLevel,
 } = require("../controllers/unit");
+const { getBuildingLevel } = require("../controllers/level");
 router.route("/:buildingId/unit").get(getBuildingUnit);
+router.route("/:buildingId/level").get(getBuildingLevel);
 router.route("/:buildingId/unit/group").get(getBuildingGroupUnit);
 router.route("/:buildingId/unit/level").get(getBuildingGroupUnitLevel);
 router.route("/").get(getProjectBuildings).post(createBuildings);
